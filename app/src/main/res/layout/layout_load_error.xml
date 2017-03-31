@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/load_error_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--加载网页错误的提示图-->
+    <ImageView
+        android:id="@+id/error_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:contentDescription="@null"
+        android:src="@mipmap/no_data" />
+
+    <!--点击提示文字，重新加载网页-->
+    <TextView
+        android:id="@+id/reload_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/error_iv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="数据获取失败\n,  请检查网络后再重试 ~~~" />
+
+
+</RelativeLayout>
