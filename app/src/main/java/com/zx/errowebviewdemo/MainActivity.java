@@ -1,10 +1,10 @@
 package com.zx.errowebviewdemo;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -43,17 +43,11 @@ public class MainActivity extends AppCompatActivity {
         mWebSettings.setUseWideViewPort(true);      //任意比例缩放
         webView.setWebViewClient(new WebViewClient() {
             @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-                Log.i(TAG, "onPageStarted: ");
-            }
-
-            //处理网页加载成功时
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                Log.i(TAG, "onPageFinished: ");
-                loadingLayout.setVisibility(View.GONE);
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
+                Log.i(TAG, "onReceivedError: ------->errorCode" + errorCode + ":" + description);
+                //网络未连接
+                showErrorPage();
             }
 
             //处理网页加载失败时
@@ -62,6 +56,23 @@ public class MainActivity extends AppCompatActivity {
                 super.onReceivedError(view, request, error);
                 Log.i(TAG, "onReceivedError: ");
                 showErrorPage();//显示错误页面
+            }
+        });
+
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                Log.i(TAG, "onProgressChanged:----------->" + newProgress);
+                if (newProgress == 100) {
+                    loadingLayout.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                super.onReceivedTitle(view, title);
+                Log.i(TAG, "onReceivedTitle:title ------>" + title);
+
             }
         });
 
