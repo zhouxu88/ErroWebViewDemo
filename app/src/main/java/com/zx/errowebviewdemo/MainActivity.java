@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
+                //6.0以下执行
                 Log.i(TAG, "onReceivedError: ------->errorCode" + errorCode + ":" + description);
                 //网络未连接
                 showErrorPage();
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
+                //6.0以上执行
                 Log.i(TAG, "onReceivedError: ");
                 showErrorPage();//显示错误页面
             }
@@ -68,11 +70,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
                 Log.i(TAG, "onReceivedTitle:title ------>" + title);
-
+                if (title.contains("404")){
+                    showErrorPage();
+                }
             }
         });
 
